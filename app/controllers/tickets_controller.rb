@@ -15,8 +15,12 @@ class TicketsController < ApplicationController
     if ticket.valid?
       render json: ticket, status: :created 
     else 
+      if ticket.errors[:base].present?
+        render json: {error: "Maximum capacity of 20 reached."}, status: :unprocessable_entity
+      else 
       render json: {errors: ticket.errors.full_messages}, status: :unprocessable_entity
-    end
+      end
+    end 
   end 
 
   def update 
@@ -25,8 +29,12 @@ class TicketsController < ApplicationController
     if ticket.valid?
       render json: ticket, status: :ok
     else
+      if ticket.errors[:base].present?
+        render json: {error: "Maximum capacity of 20 reached."}, status: :unprocessable_entity
+      else 
       render json: {error: ticket.errors.full_messages}, status: :unprocessable_entity
     end 
+  end
   end 
 
   def delete 
