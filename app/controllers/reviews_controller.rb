@@ -1,51 +1,47 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:show, :update, :destroy]
+   
 
-  # GET /reviews
-  def index
-    @reviews = Review.all
+  def index 
+    reviews = Review.all 
+    render json: review, status: :ok 
+  end 
 
-    render json: @reviews
-  end
-
-  # GET /reviews/1
-  def show
-    render json: @review
-  end
-
-  # POST /reviews
   def create
-    @review = Review.new(review_params)
-
-    if @review.save
-      render json: @review, status: :created, location: @review
-    else
-      render json: @review.errors, status: :unprocessable_entity
-    end
+    review = Review.create(review_params)
+    if review.valid? 
+      render json: review, status: :created 
+    else 
+      render json: {errors: review.errors.full_messages}, status: :unprocessable_entity
+    end 
   end
 
-  # PATCH/PUT /reviews/1
-  def update
-    if @review.update(review_params)
-      render json: @review
-    else
-      render json: @review.errors, status: :unprocessable_entity
-    end
-  end
+  def update 
+    review = current_user.reviews.find(params[:id])
+    review.update!(review_params)
+    if review
+      render json: review, status: :ok
+    else 
+      render json: {errors: review.errors.full_messages}, status: :unprocessable_entity
+    end 
+  end 
 
-  # DELETE /reviews/1
   def destroy
-    @review.destroy
+    review = Review.find(params[:id])
+    if review.user_id == session[:user_id]
+    review.destroy 
+    else 
+      render json: {error: "You do not have permission to delete this review."}, status: :unauthorized
+      end 
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_review
-      @review = Review.find(params[:id])
-    end
+   
+  def current_user
+    User.find_by(id: session[:user_id])
+  end 
 
-    # Only allow a list of trusted parameters through.
-    def review_params
-      params.require(:review).permit(:user_id, :tour_id, :review)
-    end
+  def review_params
+    params.permit(:user_id, :tour_id, :review)
+  end
+
 end

@@ -1,51 +1,32 @@
 class StadiaController < ApplicationController
-  before_action :set_stadium, only: [:show, :update, :destroy]
 
-  # GET /stadia
-  def index
-    @stadia = Stadium.all
+# list all stadiums
+  def index 
+    stadiums = Stadium.all
+    render json: stadiums, status: :ok
+  end 
 
-    render json: @stadia
-  end
-
-  # GET /stadia/1
-  def show
-    render json: @stadium
-  end
-
-  # POST /stadia
+# Create a stadium
   def create
-    @stadium = Stadium.new(stadium_params)
+    stadium = Stadium.create(stadium_params)
+    if stadium.valid?
+      render json: stadium, status: :created 
+    else 
+      render json: {errors: stadium.errors.full_messages}, status: :unprocessable_entity
+    end  
+  end 
 
-    if @stadium.save
-      render json: @stadium, status: :created, location: @stadium
-    else
-      render json: @stadium.errors, status: :unprocessable_entity
-    end
-  end
+# Show a specific stadium 
+  def show 
+    stadium = Stadium.find_by(id: params[:id])
+    render json: stadium, status: :ok 
+  end 
 
-  # PATCH/PUT /stadia/1
-  def update
-    if @stadium.update(stadium_params)
-      render json: @stadium
-    else
-      render json: @stadium.errors, status: :unprocessable_entity
-    end
-  end
+private 
 
-  # DELETE /stadia/1
-  def destroy
-    @stadium.destroy
-  end
+  def stadium_params
+    params.permit(:name, :address, :image_url, :about)
+  end 
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stadium
-      @stadium = Stadium.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def stadium_params
-      params.require(:stadium).permit(:name, :address, :image_url, :about)
-    end
 end
