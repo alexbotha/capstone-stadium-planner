@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user";
 import { useNavigate } from "react-router-dom";
+import { Container, Form, Button } from "react-bootstrap";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -37,30 +38,34 @@ function Login() {
   }
   if (!loggedIn) {
     return (
-      <div className="login-register">
-        <h3>Welcome, to youTours. Please login in to access the site.</h3>
+      <Container className="d-flex align-items-center justify-content-center vh-100">
         <div>
-          <form onSubmit={handleSubmit}>
-            <input
+          <h3 className="pb-2">Welcome, to youTours</h3>
+          <Form className="form-style" onSubmit={handleSubmit}>
+            <Form.Control
               type="text"
               name="username"
               value={username}
               placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
             />
-            <input
+            <Form.Control
               type="password"
               name="password"
               value={password}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <input type="submit" />
-            <ul>{error}</ul>
-          </form>
+            <div className="d-flex justify-content-center">
+              <Form.Control type="submit" />
+            </div>
+            <ul className="error-text-color">{error}</ul>
+          </Form>
+          <div className="d-flex justify-content-center">
+            <Button onClick={signUp}>Click to register</Button>
+          </div>
         </div>
-        <button onClick={signUp}>Don't have an account? Register here</button>
-      </div>
+      </Container>
     );
   } else {
     return <h3 className="styles">{user.username}</h3>;
@@ -68,3 +73,7 @@ function Login() {
 }
 
 export default Login;
+
+// Form.Control component is react-bootstrap version of input. Has similar attribute types: name, type and placeholder. Provides consistant styling and functionality
+
+// Container component used to create a responsive container for the content. We use container over div as it ensures the content is properly aligned and responsive according to bootstraps grid system and it also deals with padding as well as adjusting the content layout based on screen size. Using a div will span the entire parent container and wont have responsive behavior provided like react bootstrap will provide
