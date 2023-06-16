@@ -41,52 +41,56 @@ function Signup() {
   }
   if (!loggedIn) {
     return (
-      <Container className="d-flex align-items-center justify-content-center vh-100">
-        <div>
-          <h3 className="pb-2">To register fill in the form</h3>
+      <div className="background-images">
+        <Container className="d-flex align-items-center justify-content-center vh-100">
+          <div>
+            <h3 className="pb-2">To register fill in the form</h3>
 
-          <Form className="form-style" onSubmit={handleSubmit}>
-            <Form.Control
-              type="text"
-              name="username"
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-              value={username}
-            />
+            <Form className="form-style" onSubmit={handleSubmit}>
+              <Form.Control
+                type="text"
+                name="username"
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+                value={username}
+              />
 
-            <Form.Control
-              type="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              value={email}
-            />
+              <Form.Control
+                type="email"
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                value={email}
+              />
 
-            <Form.Control
-              type="password"
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              value={password}
-            />
+              <Form.Control
+                type="password"
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                value={password}
+              />
 
-            <Form.Control
-              type="password"
-              name="password_confirmation"
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              placeholder="Password Confirmation"
-              value={passwordConfirmation}
-            />
+              <Form.Control
+                type="password"
+                name="password_confirmation"
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                placeholder="Password Confirmation"
+                value={passwordConfirmation}
+              />
+              <div className="d-flex justify-content-center">
+                <Form.Control type="submit" />
+              </div>
+              <ul className="error-text-color">{errorsList}</ul>
+            </Form>
             <div className="d-flex justify-content-center">
-              <Form.Control type="submit" />
+              <Button onClick={login}>
+                Already have an account? Login here
+              </Button>
             </div>
-            <ul className="error-text-color">{errorsList}</ul>
-          </Form>
-          <div className="d-flex justify-content-center">
-            <Button onClick={login}>Already have an account? Login here</Button>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     );
   } else {
     return <h3 className="errorHandle">You are already signed in</h3>;

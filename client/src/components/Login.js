@@ -38,37 +38,39 @@ function Login() {
   }
   if (!loggedIn) {
     return (
-      <Container className="d-flex align-items-center justify-content-center vh-100">
-        <div>
-          <h3 className="pb-2">Welcome, to youTours</h3>
-          <Form className="form-style" onSubmit={handleSubmit}>
-            <Form.Control
-              type="text"
-              name="username"
-              value={username}
-              placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Form.Control
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+      <div className="background-images">
+        <Container className="d-flex align-items-center justify-content-center vh-100">
+          <div>
+            <h3 className="pb-2">Welcome, to youTours</h3>
+            <Form className="form-style" onSubmit={handleSubmit}>
+              <Form.Control
+                type="text"
+                name="username"
+                value={username}
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <Form.Control
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div className="d-flex justify-content-center">
+                <Form.Control type="submit" />
+              </div>
+              <ul className="error-text-color">{error}</ul>
+            </Form>
             <div className="d-flex justify-content-center">
-              <Form.Control type="submit" />
+              <Button onClick={signUp}>Click to register</Button>
             </div>
-            <ul className="error-text-color">{error}</ul>
-          </Form>
-          <div className="d-flex justify-content-center">
-            <Button onClick={signUp}>Click to register</Button>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     );
   } else {
-    return <h3 className="styles">{user.username}</h3>;
+    return <h3 className="errorHandle">You are already signed in</h3>;
   }
 }
 

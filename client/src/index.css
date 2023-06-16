@@ -20,3 +20,28 @@ code {
   display: flex;
   align-items: center;
 }
+
+.form-style {
+  max-width: 400px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.error-text-color {
+  color: red;
+  list-style: none;
+}
+
+.max {
+  max-width: 600px;
+}
+
+.background-images {
+  background-image: url(https://images.unsplash.com/photo-1577223645169-1e13f9056226?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80),
+    url(https://images.unsplash.com/photo-1598121876853-82437626c783?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80);
+  background-repeat: no-repeat;
+  background-size: 600px 900px;
+  background-position: top left, top right;
+}
