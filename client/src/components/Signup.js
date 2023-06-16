@@ -41,7 +41,7 @@ function Signup() {
   }
   if (!loggedIn) {
     return (
-      <div className="background-images">
+      <div className="background-image-signup">
         <Container className="d-flex align-items-center justify-content-center vh-100">
           <div>
             <h3 className="pb-2">To register fill in the form</h3>

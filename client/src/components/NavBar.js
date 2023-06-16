@@ -22,7 +22,7 @@ function NavBar() {
       <h3>Loading...</h3>
     ) : (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand className="fs-5 m-3">user.username</Navbar.Brand>
+        <Navbar.Brand className="fs-5 m-3">Hello, {user.username}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto nav-container">
@@ -49,12 +49,7 @@ function NavBar() {
       </Navbar>
     );
   } else {
-    return (
-      <Nav className="ms-auto">
-        <NavLink to="/login" className="fs-5 m-3 no-underline"></NavLink>
-        <NavLink to="/signup" className="fs-5 m-3 no-underline"></NavLink>
-      </Nav>
-    );
+    return null;
   }
 }
 
