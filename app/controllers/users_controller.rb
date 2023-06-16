@@ -7,7 +7,7 @@ def index
 end
 
 #Signup 
-def create 
+def create
   user = User.create(user_params)
   if user.valid?
     session[:user_id] = user.id 
@@ -19,7 +19,7 @@ end
 
 #Current logged in user
 def show 
-  user = user.find_by(id: session[:user_id])
+  user = User.find_by(id: session[:user_id])
   if user 
     render json: user, status: :ok
   else 
