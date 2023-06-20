@@ -17,8 +17,8 @@ function StadiumContainer() {
       <h3>Loading...</h3>
     ) : (
       <>
-        <div>
-          <h3 className="">Stadiums</h3>
+        <div className="stadium-card-center">
+          <h3>Stadiums</h3>
           {/* <button className="createHotel" onClick={createHotel}>
             Create new hotel
           </button> */}
