@@ -1,16 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { Card, Button, Col, Row, Container } from "react-bootstrap";
+import SeeToursBtn from "./SeeToursBtn";
 
 function Stadium() {
+  const [showTours, setShowTours] = useState(false);
+
   const { stadiums, loading, loggedIn } = useContext(UserContext);
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   if (loggedIn) {
     let stadium = stadiums.find((s) => s.id === parseInt(id));
-    console.log("here", stadiums);
+
+    function handleSeeTours() {
+      setShowTours(true);
+    }
 
     return loading ? (
       <h3>Loading...</h3>
@@ -38,13 +45,18 @@ function Stadium() {
             </Card>
           </Col>
         </Row>
-        <h3>Available tours</h3>
-        {stadium.tours.map((tour) => (
-          <div>
-            <h3> Date: {tour.tour_date}</h3>
-            <h3>Start time: {tour.start_time}</h3>
-          </div>
-        ))}
+
+        <div>
+          {!showTours ? (
+            <Button onClick={handleSeeTours}>Click</Button>
+          ) : (
+            <div className="calendar-overlay">
+              <div className="calendar-popup">
+                <SeeToursBtn setShowTours={setShowTours} stadium={stadium} />
+              </div>
+            </div>
+          )}
+        </div>
       </Container>
     );
   } else {
