@@ -7,6 +7,8 @@ import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
 import NavBar from "./NavBar";
+import StadiumContainer from "./StadiumContainer";
+import Stadium from "./Stadium";
 
 function App() {
   const { loggedIn, error, user } = useContext(UserContext);
@@ -22,11 +24,15 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route exact path="/" element={loggedIn ? <Home /> : <Login />} />
+        <Route
+          exact
+          path="/"
+          element={loggedIn ? <StadiumContainer /> : <Login />}
+        />
+        <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/login" element={<Login />} />
-
-        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/stadiums" element={<StadiumContainer />} />
+        <Route exact path="/stadiums/:id" element={<Stadium users={users} />} />
       </Routes>
     </div>
   );
