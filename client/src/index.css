@@ -54,6 +54,7 @@ code {
 
 .modern-card {
   height: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .card-image {
@@ -211,4 +212,9 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+}
+
+.specific-card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
