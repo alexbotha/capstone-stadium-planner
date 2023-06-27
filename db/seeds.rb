@@ -8,23 +8,25 @@
 
 tour_times = ['10:00', '14:00', '18:00']
 
+stadium_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-stadium_ids = [1, 2, 3, 4, 5] 
+Tour.delete_all
 
 
 start_date = Date.today
 end_date = Date.today + 30.days
 
 (start_date..end_date).each do |date|
- 
   tour_times.each do |time|
     stadium_ids.each do |stadium_id|
+      # puts "Creating tour for date: #{date}, time: #{time}, stadium_id: #{stadium_id}"
+
       Tour.create(
         stadium_id: stadium_id,
         tour_date: date,
         start_time: time,
         max_capacity: 20,
-        rating: 0  
+        rating: 0
       )
     end
   end
