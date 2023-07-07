@@ -218,3 +218,15 @@ code {
 .specific-card {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
+
+.review-container {
+  height: 200px; /* Set the desired height of the review container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Add border for visual separation */
+  padding: 10px; /* Add padding for spacing */
+}
+
+.review-list {
+  list-style-type: none; /* Remove bullet points from the list */
+  padding: 0; /* Remove default padding */
+}
