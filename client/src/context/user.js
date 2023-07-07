@@ -9,7 +9,7 @@ function UserProvider({ children }) {
   const [error, setError] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/me")
@@ -39,7 +39,40 @@ function UserProvider({ children }) {
       });
   }
 
-  console.log(stadiums);
+  function addReview(review) {
+    fetch("/reviews", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(review),
+    })
+      .then((res) => res.json())
+      .then((review) => {
+        if (review.errors) {
+          setError(review.errors);
+        } else {
+          setUser({ ...user, reviews: [...user.reviews, review] });
+
+          let stadiumId = review.stadium.id;
+
+          let stad = stadiums.find((s) => s.id === stadiumId);
+
+          function updatedStadium() {
+            let updatedStad = { ...stad, reviews: [...stad.reviews, review] };
+
+            return stadiums.map((stadium) => {
+              if (stadium.id === stadiumId) {
+                return updatedStad;
+              } else {
+                return stadium;
+              }
+            });
+          }
+          setStadiums(updatedStadium);
+          setError([]);
+          navigate(`/stadiums/${stadiumId}`);
+        }
+      });
+  }
 
   function login(user) {
     setUser(user);
@@ -71,6 +104,8 @@ function UserProvider({ children }) {
         stadiums,
         setStadiums,
         error,
+        setError,
+        addReview,
       }}
     >
       {children}
