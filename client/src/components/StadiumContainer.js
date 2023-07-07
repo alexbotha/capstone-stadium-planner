@@ -1,16 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user";
 import StadiumItem from "./StadiumItem";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Row } from "react-bootstrap";
 
 function StadiumContainer() {
+  const [searchCountry, setSearchCountry] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [searchRating, setSearchRating] = useState("");
   const { loggedIn, stadiums, error, loading } = useContext(UserContext);
-  const navigate = useNavigate();
 
-  // function createStadium() {
-  //   navigate("/stadium/new");
-  // }
+  // filterStadiums recieves the stadium object to then allow us to write our logic
+  function filterStadiums(stadium) {
+    // If our state of searchCountry is an empty string ("") then evaluate as true. This essentially bypasses the filtering which means all the stadium objects are returned in our new array
+    // OR if our searchCountry is not empty, then return the stadium objects whos .country includes the value that searchCountry is currently set
+    const matchCountry =
+      searchCountry === "" ||
+      stadium.country.toLowerCase().startsWith(searchCountry.toLowerCase());
+
+    const matchName =
+      searchName === "" ||
+      stadium.name.toLowerCase().includes(searchName.toLowerCase());
+
+    return matchCountry && matchName;
+  }
+
+  // we filter over stadiums, and instead of doing something with our stadium object in our filteredStadiums variable, we pass a callback function called filterStadiums. This helps keep code organized and readable and allows for reusability
+  const filteredStadiums = stadiums.filter(filterStadiums);
 
   if (loggedIn) {
     return loading ? (
@@ -24,11 +40,29 @@ function StadiumContainer() {
           </button> */}
           <br />
           <p className="amountOfHotels">
-            There are {stadiums.length} stadiums to choose from
+            There are {filteredStadiums.length} stadiums to choose from
           </p>
+          <input
+            type="text"
+            value={searchCountry}
+            onChange={(e) => setSearchCountry(e.target.value)}
+            placeholder="Country"
+          />
+          <input
+            type="text"
+            value={searchRating}
+            onChange={(e) => setSearchRating(e.target.value)}
+            placeholder="Rating"
+          />
+          <input
+            type="text"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+            placeholder="Name"
+          />
         </div>
         <Row>
-          {stadiums.map((stadium) => (
+          {filteredStadiums.map((stadium) => (
             <StadiumItem key={stadium.id} stadium={stadium} />
           ))}
         </Row>
