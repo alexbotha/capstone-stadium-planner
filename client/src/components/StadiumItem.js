@@ -16,6 +16,7 @@ function StadiumItem({ stadium }) {
         </div>
         <Card.Body className="stadium-card-center">
           <Card.Title>{stadium.name}</Card.Title>
+          <Card.Title>{stadium.rating}/5</Card.Title>
 
           <Button as={Link} to={`/stadiums/${stadium.id}`}>
             See more
