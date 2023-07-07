@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UserContext } from "../context/user";
-import { Card, Button, Col, Row, Container } from "react-bootstrap";
+import { Card, Button, Col, Container } from "react-bootstrap";
 import SeeToursBtn from "./SeeToursBtn";
+import SeeReviewsBtn from "./SeeReviewsBtn";
 
 function Stadium() {
   const [showTours, setShowTours] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
   const { stadiums, loading, loggedIn } = useContext(UserContext);
   const { id } = useParams();
 
@@ -14,6 +16,10 @@ function Stadium() {
 
     function handleSeeTours() {
       setShowTours(true);
+    }
+
+    function handleSeeReviews() {
+      setShowReviews(true);
     }
 
     return loading ? (
@@ -38,14 +44,33 @@ function Stadium() {
               <Card.Text>{stadium.country}</Card.Text>
             </Card.Body>
 
-            {!showTours ? (
-              <Button className="btn" onClick={handleSeeTours}>
-                Book tickets
-              </Button>
-            ) : (
+            {!showTours && !showReviews ? (
+              <>
+                <Button className="btn" onClick={handleSeeTours}>
+                  Book tickets
+                </Button>
+                <br />
+                <Button className="btn" onClick={handleSeeReviews}>
+                  View reviews
+                </Button>
+              </>
+            ) : null}
+
+            {showTours && (
               <div className="calendar-overlay">
                 <div className="calendar-popup">
                   <SeeToursBtn setShowTours={setShowTours} stadium={stadium} />
+                </div>
+              </div>
+            )}
+
+            {showReviews && (
+              <div className="calendar-overlay">
+                <div className="calendar-popup">
+                  <SeeReviewsBtn
+                    setShowReviews={setShowReviews}
+                    stadium={stadium}
+                  />
                 </div>
               </div>
             )}
