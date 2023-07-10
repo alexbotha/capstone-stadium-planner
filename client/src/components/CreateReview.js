@@ -3,8 +3,9 @@ import { Container, Form, Button } from "react-bootstrap";
 import { UserContext } from "../context/user";
 import { useNavigate } from "react-router-dom";
 
-function CreateReview({ setStadium, stadium }) {
+function CreateReview({ tourState, setTourState }) {
   const [reviewInput, setReviewInput] = useState("");
+  const [rating, setRating] = useState();
 
   const { addReview, error, setError, loggedIn, loading, user } =
     useContext(UserContext);
@@ -14,9 +15,20 @@ function CreateReview({ setStadium, stadium }) {
 
     addReview({
       review: reviewInput,
-      tour_id: stadium.id,
+      rating: rating,
+      tour_id: tourState.id,
       user_id: user.id,
     });
+  }
+
+  function handleRating(e) {
+    const inputValue = e.target.value;
+    const parsedValue = parseInt(inputValue);
+
+    //.min compares parsedValue and 5 and returns anything under 5. Anything over 5 will be capped at 5, and 5 will be returned. Math.max compares 0 and parsed value and does that opposite. Thus creating a minimum and maximum value input
+    const newValue = Math.max(0, Math.min(5, parsedValue));
+
+    setRating(newValue);
   }
 
   if (loggedIn) {
@@ -34,13 +46,20 @@ function CreateReview({ setStadium, stadium }) {
             placeholder="Review"
             onChange={(e) => setReviewInput(e.target.value)}
           />
+          <Form.Control
+            type="number"
+            name="rating"
+            value={rating}
+            placeholder="Rating"
+            onChange={handleRating}
+          />
 
           <Form.Control type="submit" />
 
           <div className="button-container">
             <Button
               onClick={() => {
-                setStadium(null);
+                setTourState(null);
                 setError([]);
               }}
             >
