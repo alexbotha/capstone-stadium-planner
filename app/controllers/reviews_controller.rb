@@ -60,7 +60,7 @@ class ReviewsController < ApplicationController
   end 
 
   def review_params
-    params.permit(:user_id, :tour_id, :review)
+    params.permit(:user_id, :tour_id, :review, :rating)
   end
 
   def user_has_ticket?(user, tour)
