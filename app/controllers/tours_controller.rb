@@ -2,8 +2,12 @@ class ToursController < ApplicationController
   
   def index 
     tours = Tour.all 
-    render json: tour, status: :ok
+    if tours
+    render json: tours, status: :ok
+  else 
+    render json: {error: "There are no tour dates available"} 
   end 
+end
 
   def create 
     tour = Tour.create(tour_params)
@@ -14,10 +18,28 @@ class ToursController < ApplicationController
       end 
   end 
 
+  def show
+    tour = Tour.find_by(id: params[:id])
+    if tour
+      if tour.valid?
+        render json: tour, status: :ok
+      else
+        render json: { error: tour.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: "There are no tour dates available" }, status: :not_found
+    end
+  end
+
+  def destroy 
+    tour = Tour.find_by(id: params[:id])
+    tour.destroy 
+  end 
+
   private 
 
   def tour_params
-    params.permit(:start_time, :end_time, :stadium_id, :id, :max_capacity)
+    params.permit(:start_time, :tour_date, :stadium_id, :max_capacity, :rating)
   end 
 
  
