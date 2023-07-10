@@ -114,6 +114,14 @@ code {
   text-align: center;
 }
 
+.no-stadiums {
+  display: flex;
+  color: red;
+  justify-content: center;
+  text-align: center;
+  padding-top: 50px;
+}
+
 .button-container {
   display: flex;
   justify-content: center;
@@ -229,4 +237,20 @@ code {
 .review-list {
   list-style-type: none; /* Remove bullet points from the list */
   padding: 0; /* Remove default padding */
+}
+
+.input-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.input-col .form-control {
+  margin-right: 10px;
+  width: auto;
+}
+
+.user-tour-name {
+  color: blue;
 }
