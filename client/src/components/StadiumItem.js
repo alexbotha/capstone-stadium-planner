@@ -6,6 +6,7 @@ import { Card, Button, Col } from "react-bootstrap";
 
 function StadiumItem({ stadium }) {
   const { loading } = useContext(UserContext);
+
   return loading ? (
     <h3>Loading...</h3>
   ) : (
@@ -16,7 +17,7 @@ function StadiumItem({ stadium }) {
         </div>
         <Card.Body className="stadium-card-center">
           <Card.Title>{stadium.name}</Card.Title>
-          <Card.Title>{stadium.rating}/5</Card.Title>
+          <Card.Title>{stadium.average_rating}/5</Card.Title>
 
           <Button as={Link} to={`/stadiums/${stadium.id}`}>
             See more
