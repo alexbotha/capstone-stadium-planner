@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/user";
 import { useNavigate, NavLink } from "react-router-dom";
-import { Button, Navbar, Nav, Container, Row, Col } from "react-bootstrap";
+import { Button, Navbar, Nav } from "react-bootstrap";
 
 function NavBar() {
   const { user, logout, loggedIn, loading } = useContext(UserContext);
