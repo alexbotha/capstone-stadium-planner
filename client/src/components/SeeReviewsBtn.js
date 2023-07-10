@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function SeeReviewsBtn({ setShowReviews, stadium }) {
   return (
@@ -10,7 +11,10 @@ function SeeReviewsBtn({ setShowReviews, stadium }) {
           {stadium.reviews.map((review) => {
             return (
               <li>
-                <em>{review.user_username}</em> - {review.review}
+                <Link to={`/users/${review.user_id}`}>
+                  {review.user_username}
+                </Link>{" "}
+                - {review.review} - {review.rating}/5
               </li>
             );
           })}
