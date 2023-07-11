@@ -1,17 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/user";
 import { Card, Button, Col, Row } from "react-bootstrap";
 import CreateReview from "./CreateReview";
 
 function PreviousTours() {
   const [tourState, setTourState] = useState(null);
-  const { loggedIn, user, loading, stadiums, setStadiums, error } =
-    useContext(UserContext);
+  const [x, setX] = useState([]);
+  const { loggedIn, user, loading } = useContext(UserContext);
+
+  useEffect(() => {
+    setX(user.tours.filter((tour) => tour.upcoming_tours === false));
+  }, [user]);
+
+  console.log(user);
 
   if (loggedIn) {
-    let previousTour = user.tours.filter(
-      (tour) => tour.upcoming_tours === false
-    );
+    // let previousTour = user.tours.filter((tour) =>
+    //   tour.reviews.some((review) => review)
+    // );
     return loading ? (
       <h3>Loading...</h3>
     ) : (
@@ -19,7 +25,7 @@ function PreviousTours() {
         <h3>Your previous tours</h3>
 
         <Row>
-          {previousTour.map((tour) => (
+          {x.map((tour) => (
             <>
               <Col md={3} sm={6} xs={12} className="mb-4">
                 <Card className="modern-card">
@@ -39,15 +45,11 @@ function PreviousTours() {
                   {tour.reviews.some((review) => review) ? (
                     <Button>Edit Review</Button>
                   ) : (
-                    <Button>Create Review</Button>
+                    <Button onClick={() => setTourState(tour)}>
+                      Create Review
+                    </Button>
                   )}
-                  {/* {tourState === null ? (
-                    <>
-                      <Button onClick={() => setTourState(tour)}>
-                        Create a review
-                      </Button>
-                    </>
-                  ) : (
+                  {tourState === null ? null : (
                     <div className="calendar-overlay">
                       <div className="calendar-popup">
                         <CreateReview
@@ -56,7 +58,7 @@ function PreviousTours() {
                         />
                       </div>
                     </div>
-                  )} */}
+                  )}
                 </Card>
               </Col>
             </>
