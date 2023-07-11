@@ -5,6 +5,7 @@ const UserContext = React.createContext();
 
 function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+
   const [stadiums, setStadiums] = useState([]);
   const [error, setError] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -24,6 +25,8 @@ function UserProvider({ children }) {
       });
     fetchStadiums();
   }, []);
+
+  console.log(user);
 
   function fetchStadiums() {
     fetch("/stadia")
@@ -52,6 +55,19 @@ function UserProvider({ children }) {
         } else {
           setUser({ ...user, reviews: [...user.reviews, review] });
 
+          let tourId = review.tour_id;
+
+          const updatedUserTour = user.tours.map((tour) => {
+            if (tour.id === tourId) {
+              return {
+                ...tour,
+                reviews: tour.reviews ? [...tour.reviews, review] : [review],
+              };
+            }
+            return tour;
+          });
+          setUser({ ...user, tours: updatedUserTour });
+
           let stadiumId = review.stadium.id;
 
           let stad = stadiums.find((s) => s.id === stadiumId);
@@ -70,6 +86,8 @@ function UserProvider({ children }) {
           setStadiums(updatedStadium);
           setError([]);
           navigate(`/stadiums/${stadiumId}`);
+
+          // Update the tourState to trigger a re-render
         }
       });
   }
