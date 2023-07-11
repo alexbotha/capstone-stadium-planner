@@ -9,8 +9,7 @@ import PreviousTours from "./PreviousTours";
 function MyAccount() {
   const [upComingTours, setUpcomingTours] = useState(true);
 
-  const { loggedIn, user, loading, stadiums, setStadiums, error } =
-    useContext(UserContext);
+  const { loggedIn, loading, error } = useContext(UserContext);
 
   if (loggedIn) {
     return loading ? (
