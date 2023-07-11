@@ -4,10 +4,15 @@ import { Card, Button, Col, Row } from "react-bootstrap";
 
 function UpcomingTours() {
   const [stadium, setStadium] = useState(null);
+
   const { loggedIn, user, loading, stadiums, setStadiums, error } =
     useContext(UserContext);
 
   if (loggedIn) {
+    let upcomingTour = user.tours.filter(
+      (tour) => tour.upcoming_tours === true
+    );
+
     return loading ? (
       <h3>Loading...</h3>
     ) : (
@@ -15,7 +20,7 @@ function UpcomingTours() {
         <h3>Your upcoming tours</h3>
 
         <Row>
-          {user.tours.map((tour) => (
+          {upcomingTour.map((tour) => (
             <>
               <Col md={3} sm={6} xs={12} className="mb-4">
                 <Card className="modern-card">

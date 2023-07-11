@@ -9,6 +9,9 @@ function PreviousTours() {
     useContext(UserContext);
 
   if (loggedIn) {
+    let previousTour = user.tours.filter(
+      (tour) => tour.upcoming_tours === false
+    );
     return loading ? (
       <h3>Loading...</h3>
     ) : (
@@ -16,7 +19,7 @@ function PreviousTours() {
         <h3>Your previous tours</h3>
 
         <Row>
-          {user.tours.map((tour) => (
+          {previousTour.map((tour) => (
             <>
               <Col md={3} sm={6} xs={12} className="mb-4">
                 <Card className="modern-card">
