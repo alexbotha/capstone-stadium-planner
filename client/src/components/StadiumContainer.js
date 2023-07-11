@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user";
 import StadiumItem from "./StadiumItem";
 import { useNavigate } from "react-router-dom";
-import { Row } from "react-bootstrap";
+import { Row, Form, Col } from "react-bootstrap";
 
 function StadiumContainer() {
   const [searchCountry, setSearchCountry] = useState("");
@@ -39,32 +39,38 @@ function StadiumContainer() {
             Create new hotel
           </button> */}
           <br />
-          <p className="amountOfHotels">
-            There are {filteredStadiums.length} stadiums to choose from
-          </p>
-          <input
-            type="text"
-            value={searchCountry}
-            onChange={(e) => setSearchCountry(e.target.value)}
-            placeholder="Country"
-          />
-          <input
-            type="text"
-            value={searchRating}
-            onChange={(e) => setSearchRating(e.target.value)}
-            placeholder="Rating"
-          />
-          <input
-            type="text"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-            placeholder="Name"
-          />
+          <p>There are {filteredStadiums.length} stadiums to choose from</p>
         </div>
         <Row>
-          {filteredStadiums.map((stadium) => (
-            <StadiumItem key={stadium.id} stadium={stadium} />
-          ))}
+          <Col className="input-col">
+            <Form.Control
+              type="text"
+              value={searchCountry}
+              onChange={(e) => setSearchCountry(e.target.value)}
+              placeholder="Country"
+            />
+            <Form.Control
+              type="text"
+              value={searchRating}
+              onChange={(e) => setSearchRating(e.target.value)}
+              placeholder="Rating"
+            />
+            <Form.Control
+              type="text"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+              placeholder="Name"
+            />
+          </Col>
+        </Row>
+        <Row>
+          {filteredStadiums.length === 0 ? (
+            <h3 className="no-stadiums">No stadiums found.</h3>
+          ) : (
+            filteredStadiums.map((stadium) => (
+              <StadiumItem key={stadium.id} stadium={stadium} />
+            ))
+          )}
         </Row>
       </>
     );
