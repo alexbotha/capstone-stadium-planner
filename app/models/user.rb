@@ -9,4 +9,10 @@ class User < ApplicationRecord
 
   has_many :tickets
   has_many :tours, through: :tickets
+  has_many :reviews
+
+  def has_review_for_tour(tour)
+    reviews.exists?(tour: tour)
+  end 
+  
 end

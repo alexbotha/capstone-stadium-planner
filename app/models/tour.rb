@@ -8,5 +8,9 @@ class Tour < ApplicationRecord
   
   has_many :users, through: :tickets
 
+  def reviewed_by_user?(user)
+    reviews.exists?(user: user)
+  end
+
 end
  
