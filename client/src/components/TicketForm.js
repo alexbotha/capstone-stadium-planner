@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { Container, Form, Button } from "react-bootstrap";
@@ -6,6 +6,7 @@ import { Container, Form, Button } from "react-bootstrap";
 function TicketForm({ tourId }) {
   const [quantity, setQuantity] = useState("");
   const [errorsList, setErrorsList] = useState([]);
+  const { user, setUser } = useContext(UserContext);
 
   const { id } = useParams();
 
@@ -23,7 +24,26 @@ function TicketForm({ tourId }) {
     })
       .then((res) => res.json())
       .then((ticket) => {
+        // debugger;
         if (!ticket.errors) {
+          setUser({
+            ...user,
+            tickets: user.tickets ? [...user.tickets, ticket] : [ticket],
+          });
+
+          // let tourId = ticket.tour_id;
+
+          // const updatedUserTour = user.tours.map((tour) => {
+          //   if (tour.id === tourId) {
+          //     return {
+          //       ...tour,
+          //       tickets: tour.tickets ? [...tour.tickets, ticket] : [ticket],
+          //     };
+          //   }
+          //   return tour;
+          // });
+          // setUser({ ...user, tours: updatedUserTour });
+
           navigate("/myaccount");
         } else {
           const errorLis = ticket.errors.map((e) => <li>{e}</li>);
