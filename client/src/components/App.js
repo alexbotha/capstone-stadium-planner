@@ -32,7 +32,11 @@ function App() {
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/myaccount" element={<MyAccount />} />
+        <Route
+          exact
+          path="/myaccount"
+          element={user !== null ? <MyAccount /> : null}
+        />
         <Route exact path="/stadiums" element={<StadiumContainer />} />
         <Route exact path="/stadiums/:id" element={<Stadium users={users} />} />
         <Route
