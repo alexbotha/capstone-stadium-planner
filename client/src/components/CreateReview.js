@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 function CreateReview({ tourState, setTourState }) {
   const [reviewInput, setReviewInput] = useState("");
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState(0);
+
+  console.log("tourState", tourState.tour_id);
 
   const { addReview, error, setError, loggedIn, loading, user } =
     useContext(UserContext);
@@ -16,7 +18,7 @@ function CreateReview({ tourState, setTourState }) {
     addReview({
       review: reviewInput,
       rating: rating,
-      tour_id: tourState.id,
+      tour_id: tourState.tour_id,
       user_id: user.id,
     });
   }
