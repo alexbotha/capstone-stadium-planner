@@ -246,7 +246,8 @@ code {
   text-align: center;
 }
 
-.input-col .form-control {
+.input-col .form-control,
+.form-select {
   margin-right: 10px;
   width: auto;
 }
