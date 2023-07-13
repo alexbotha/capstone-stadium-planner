@@ -10,8 +10,6 @@ function UserTours({ users }) {
   if (loggedIn) {
     const foundUser = users.find(({ id }) => id === parseInt(params.id));
 
-    console.log(foundUser.tours);
-
     return loading ? (
       <h3 className="loading">Loading...</h3>
     ) : (
