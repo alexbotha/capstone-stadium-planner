@@ -2,9 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/user";
 import { Card, Button, Col, Row } from "react-bootstrap";
 import CreateReview from "./CreateReview";
+import EditReview from "./EditReview";
 
 function PreviousTours() {
   const [tourState, setTourState] = useState(null);
+  const [edit, setEdit] = useState(null);
 
   const { loggedIn, user, loading } = useContext(UserContext);
 
@@ -43,14 +45,24 @@ function PreviousTours() {
                       {/* {const p = user.tours.map((tour) =>
     tour.reviews.map((review) => review.review)
   );} */}
+
                       {user.reviews
                         .map((review) => review.tour_id)
                         .includes(filteredTicket.tour.id) ? (
-                        <Button>Edit Review</Button>
+                        <Button onClick={() => setEdit(filteredTicket)}>
+                          Edit Review
+                        </Button>
                       ) : (
                         <Button onClick={() => setTourState(filteredTicket)}>
                           Create Review
                         </Button>
+                      )}
+                      {edit === null ? null : (
+                        <div className="calendar-overlay">
+                          <div className="calendar-popup">
+                            <EditReview setEdit={setEdit} edit={edit} />
+                          </div>
+                        </div>
                       )}
                       {tourState === null ? null : (
                         <div className="calendar-overlay">
