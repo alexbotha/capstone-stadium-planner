@@ -49,7 +49,28 @@ function NavBar() {
       </Navbar>
     );
   } else {
-    return null;
+    return (
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand className="fs-5 m-3">youTours</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto nav-container">
+            <NavLink
+              to="/login"
+              className="fs-5 m-3 no-underline inline-button"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className="fs-5 m-3 no-underline inline-button"
+            >
+              Sign up
+            </NavLink>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
   }
 }
 
