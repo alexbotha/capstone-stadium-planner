@@ -79,7 +79,7 @@ function Stadium() {
       </Container>
     );
   } else {
-    return <h3>Please login</h3>;
+    return null;
   }
 }
 
