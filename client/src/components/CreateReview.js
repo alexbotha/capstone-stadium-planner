@@ -7,8 +7,6 @@ function CreateReview({ tourState, setTourState }) {
   const [reviewInput, setReviewInput] = useState("");
   const [rating, setRating] = useState(0);
 
-  console.log("tourState", tourState.tour_id);
-
   const { addReview, error, setError, loggedIn, loading, user } =
     useContext(UserContext);
 
