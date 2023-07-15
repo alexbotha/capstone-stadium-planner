@@ -10,10 +10,9 @@ function StadiumContainer() {
   const [searchRating, setSearchRating] = useState("");
   const { loggedIn, stadiums, error, loading } = useContext(UserContext);
 
-  // Filter over stadiums and recieve the callback
-  const filteredStadiums = stadiums.filter(filterStadiums);
 
-  // Our call back function filterStadiums recieves the stadium object from filteredStadiums to then allow us to write our logic
+
+  // Our call back function recieves the stadium object from filteredStadiums
   function filterStadiums(stadium) {
     // If searchCountry is empty - true - return all stadiums
     // If searchCountry is not empty, then return the stadium objects whos .country includes the value that searchCountry is currently set
@@ -28,8 +27,12 @@ function StadiumContainer() {
     const matchRating =
       searchRating === "" || stadium.average_rating === parseInt(searchRating);
 
+    // return the variables
     return matchCountry && matchName && matchRating;
   }
+
+  // Filter over stadiums and recieve the callback
+  const filteredStadiums = stadiums.filter(filterStadiums);
 
   //  Set constructor recieves our array and creates a new set object in memory containing non duplicated values.
   // we call 'new' which will create a new instance of the set object in memory containing our non duplicated values.
