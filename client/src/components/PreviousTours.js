@@ -7,8 +7,12 @@ import EditReview from "./EditReview";
 function PreviousTours() {
   const [tourState, setTourState] = useState(null);
   const [edit, setEdit] = useState(null);
-
+  const [x, setX] = useState([]);
   const { loggedIn, user, loading } = useContext(UserContext);
+
+  useEffect(() => {
+    setX(user.tickets.filter((ticket) => ticket.upcoming_tours === false));
+  }, [user]);
 
   if (loggedIn) {
     return loading ? (
@@ -17,7 +21,7 @@ function PreviousTours() {
       <>
         <h3>Your previous tours</h3>
 
-        {user !== null ? (
+        {user !== null && x.length > 0 ? (
           <Row>
             {user.tickets
               .filter((ticket) => ticket.upcoming_tours === false)
@@ -80,7 +84,7 @@ function PreviousTours() {
               ))}
           </Row>
         ) : (
-          <h3>not tours avail</h3>
+          <h3>You haven't been on any tours yet.</h3>
         )}
       </>
     );
