@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/user";
 import { Link } from "react-router-dom";
 
@@ -6,26 +6,38 @@ import { Card, Button, Col } from "react-bootstrap";
 
 function StadiumItem({ stadium }) {
   const { loading } = useContext(UserContext);
+  const [selectedStadium, setSelectedStadium] = useState([]);
+
+  useEffect(() => {
+    setSelectedStadium(stadium);
+  }, [stadium]);
 
   return loading ? (
     <h3>Loading...</h3>
   ) : (
-    <Col md={3} sm={6} xs={12} className="mb-4">
-      <Card className="modern-card">
-        <div className="card-image">
-          <Card.Img variant="top" src={stadium.image_url} alt="stadium image" />
-        </div>
-        <Card.Body className="stadium-card-center">
-          <Card.Title>{stadium.name}</Card.Title>
-          <Card.Title>{stadium.average_rating}/5</Card.Title>
-
-          <Button as={Link} to={`/stadiums/${stadium.id}`}>
-            See more
-          </Button>
-        </Card.Body>
-        <br></br>
-      </Card>
-    </Col>
+    <>
+      {selectedStadium.length !== 0 ? (
+        <Col md={3} sm={6} xs={12} className="mb-4">
+          <Card className="modern-card">
+            <div className="card-image">
+              <Card.Img
+                variant="top"
+                src={selectedStadium.image_url}
+                alt="stadium image"
+              />
+            </div>
+            <Card.Body className="stadium-card-center">
+              <Card.Title>{selectedStadium.name}</Card.Title>
+              <Card.Title>{selectedStadium.average_rating}/5</Card.Title>
+              <Button as={Link} to={`/stadiums/${selectedStadium.id}`}>
+                See more
+              </Button>
+            </Card.Body>
+            <br />
+          </Card>
+        </Col>
+      ) : null}
+    </>
   );
 }
 
