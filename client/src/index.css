@@ -256,3 +256,19 @@ code {
 .user-tour-name {
   color: blue;
 }
+
+.my-account-tours {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.handle-delete {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
