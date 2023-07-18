@@ -8,7 +8,7 @@ import TicketForm from "./TicketForm";
 function SeeToursBtn({ setShowTours, stadium }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+
   const [ticket, setTicket] = useState(false);
   const [tourId, setTourId] = useState("");
 
@@ -36,7 +36,7 @@ function SeeToursBtn({ setShowTours, stadium }) {
         <div>
           <h3>{selectedDate.toDateString()}</h3>
           {selectedTourDates.map((tour) => (
-            <div>
+            <div key={tour.id}>
               <Link
                 onClick={() => {
                   const x = tour.id;
@@ -63,13 +63,13 @@ function SeeToursBtn({ setShowTours, stadium }) {
           <h1>Tour dates</h1>
           <Calendar
             value={new Date()}
-            tileContent={({ date }) =>
-              stadium.tours.some(
-                (tour) =>
-                  new Date(tour.tour_date).toDateString() ===
-                  date.toDateString()
-              )
-            }
+            // tileContent={({ date }) =>
+            //   stadium.tours.some(
+            //     (tour) =>
+            //       new Date(tour.tour_date).toDateString() ===
+            //       date.toDateString()
+            //   )
+            // }
             onClickDay={handleDateSelect}
           />
           {renderTourDates()}

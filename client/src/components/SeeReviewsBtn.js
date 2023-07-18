@@ -10,7 +10,7 @@ function SeeReviewsBtn({ setShowReviews, stadium }) {
         <ul className="review-list">
           {stadium.reviews.map((review) => {
             return (
-              <li>
+              <li key={review.id}>
                 <Link to={`/users/${review.user_id}`}>
                   {review.user_username}
                 </Link>{" "}

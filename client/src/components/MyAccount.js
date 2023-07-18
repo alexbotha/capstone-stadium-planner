@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user";
-
-import { Card, Button, Col, Row } from "react-bootstrap";
-
+import { Button } from "react-bootstrap";
 import UpcomingTours from "./UpcomingTours";
 import PreviousTours from "./PreviousTours";
 
@@ -25,7 +23,7 @@ function MyAccount() {
     );
   } else {
     return (
-      <div className="errorHandle">
+      <div className="error-text-color">
         <h3>{error}</h3>;
       </div>
     );
