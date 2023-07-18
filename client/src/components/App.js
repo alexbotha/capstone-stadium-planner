@@ -28,7 +28,9 @@ function App() {
         <Route
           exact
           path="/"
-          element={loggedIn ? <StadiumContainer /> : <Login />}
+          element={
+            loggedIn ? <StadiumContainer key="stadiums-loggedIn" /> : <Login />
+          }
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
@@ -37,7 +39,11 @@ function App() {
           path="/myaccount"
           element={user !== null ? <MyAccount /> : null}
         />
-        <Route exact path="/stadiums" element={<StadiumContainer />} />
+        <Route
+          exact
+          path="/stadiums"
+          element={<StadiumContainer key="stadiums-loggedIn" />}
+        />
         <Route exact path="/stadiums/:id" element={<Stadium users={users} />} />
         <Route
           exact
@@ -48,7 +54,7 @@ function App() {
         <Route
           exact
           path="*"
-          element={<h3 className="errorHandle">404 page not found</h3>}
+          element={<h3 className="error-text-color">404 page not found</h3>}
         />
       </Routes>
     </div>
