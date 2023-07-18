@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   
   resources :reviews
   resources :tickets
-  resources :tours
-  resources :stadia
-  resources :users
+  resources :tours, only: [:index, :show, :create]
+  resources :stadia, only: [:index, :show]
+  resources :users, only: [:index, :show, :create]
 
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
