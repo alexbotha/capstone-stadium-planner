@@ -8,7 +8,7 @@ import SeeReviewsBtn from "./SeeReviewsBtn";
 function Stadium() {
   const [showTours, setShowTours] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
-  const { stadiums, loading, loggedIn } = useContext(UserContext);
+  const { stadiums, loading, loggedIn, error } = useContext(UserContext);
   const { id } = useParams();
 
   if (loggedIn) {
@@ -79,7 +79,11 @@ function Stadium() {
       </Container>
     );
   } else {
-    return null;
+    return (
+      <div className="error-text-color">
+        <h3>{error}</h3>
+      </div>
+    );
   }
 }
 

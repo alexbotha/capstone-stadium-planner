@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user";
 import StadiumItem from "./StadiumItem";
-import { useNavigate } from "react-router-dom";
+
 import { Row, Form, Col } from "react-bootstrap";
 
 function StadiumContainer() {
@@ -9,8 +9,6 @@ function StadiumContainer() {
   const [searchName, setSearchName] = useState("");
   const [searchRating, setSearchRating] = useState("");
   const { loggedIn, stadiums, error, loading } = useContext(UserContext);
-
-
 
   // Our call back function recieves the stadium object from filteredStadiums
   function filterStadiums(stadium) {
@@ -53,9 +51,7 @@ function StadiumContainer() {
       <>
         <div className="stadium-card-center">
           <h3>Stadiums</h3>
-          {/* <button className="createHotel" onClick={createHotel}>
-            Create new hotel
-          </button> */}
+
           <br />
           <p>There are {filteredStadiums.length} stadiums to choose from</p>
         </div>
@@ -94,7 +90,9 @@ function StadiumContainer() {
             >
               <option value="">Select Name</option>
               {uniqueNames.map((name) => (
-                <option value={name}>{name}</option>
+                <option key={name} value={name}>
+                  {name}
+                </option>
               ))}
             </Form.Select>
           </Col>
@@ -104,7 +102,7 @@ function StadiumContainer() {
             <h3 className="no-stadiums">No stadiums found.</h3>
           ) : (
             filteredStadiums.map((stadium) => (
-              <StadiumItem key={stadium.id} stadium={stadium} />
+              <StadiumItem stadium={stadium} key={stadium.id} />
             ))
           )}
         </Row>
