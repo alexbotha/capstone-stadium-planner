@@ -31,10 +31,10 @@ end
     end
   end
 
-  def destroy 
-    tour = Tour.find_by(id: params[:id])
-    tour.destroy 
-  end 
+  # def destroy 
+  #   tour = Tour.find_by(id: params[:id])
+  #   tour.destroy 
+  # end 
 
   private 
 
