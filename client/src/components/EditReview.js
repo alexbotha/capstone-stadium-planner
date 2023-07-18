@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { UserContext } from "../context/user";
-import { useNavigate } from "react-router-dom";
 
-function EditReview({ edit, setEdit }) {
-  const [reviewInput, setReviewInput] = useState();
+function EditReview({ setTourToEditReview, tourToEditReview }) {
+  const [reviewInput, setReviewInput] = useState("");
   const [id, setId] = useState();
   const [rating, setRating] = useState(0);
   const [selectReview, setSelectReview] = useState([]);
@@ -23,28 +22,25 @@ function EditReview({ edit, setEdit }) {
 
   useEffect(() => {
     let selectedReview = user.reviews.find(
-      (review) => review.tour_id === edit.tour.id
+      (review) => review.tour_id === tourToEditReview.id
     );
 
     setReviewInput(selectedReview.review);
     setRating(selectedReview.rating);
     setId(selectedReview.id);
     setSelectReview(selectedReview);
-  }, []);
+  }, [user.reviews, tourToEditReview.id]);
 
   function handleSubmit(e) {
     e.preventDefault();
     editReview({
       review: reviewInput,
       rating: rating,
-      tour_id: edit.tour_id,
+      tour_id: tourToEditReview.id,
       user_id: user.id,
       id: id,
     });
-    setEdit(null);
   }
-
-  console.log(selectReview);
 
   function handleDelete(review_id) {
     let findReview = user.reviews.filter((r) => r.id !== review_id);
@@ -61,24 +57,6 @@ function EditReview({ edit, setEdit }) {
       }
       return stadium;
     });
-
-    // function updatedStadiums() {
-    //   let x = {
-    //     ...foundStadium,
-    //     reviews: updatedReviews,
-    //   };
-
-    //   return stadiums.map((stadium) => {
-    //     if (stadium.id === selectReview.id) {
-    //       return x;
-    //     } else {
-    //       return stadium;
-    //     }
-    //   });
-    // }
-
-    console.log("updatedUserReviews", updatedUserReviews);
-    console.log("updatedStadiums", updatedStadiums);
 
     fetch(`/reviews/${selectReview.id}`, {
       method: "DELETE",
@@ -128,7 +106,7 @@ function EditReview({ edit, setEdit }) {
           <div className="button-container">
             <Button
               onClick={() => {
-                setEdit(null);
+                setTourToEditReview(null);
                 setError([]);
               }}
             >
@@ -136,7 +114,7 @@ function EditReview({ edit, setEdit }) {
             </Button>
             <Button
               onClick={() => {
-                setEdit(null);
+                setTourToEditReview(null);
                 handleDelete(selectReview.id);
               }}
             >
