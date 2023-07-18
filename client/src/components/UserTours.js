@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/user";
 import { useParams, Link } from "react-router-dom";
-import { Card, Button, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 
 function UserTours({ users }) {
-  const { loggedIn, loading } = useContext(UserContext);
+  const { loggedIn, loading, error } = useContext(UserContext);
   const params = useParams();
 
   if (loggedIn) {
@@ -46,8 +46,8 @@ function UserTours({ users }) {
     );
   } else {
     return (
-      <div className="errorHandle">
-        <h3>Please log in or sign up</h3>
+      <div className="error-text-color">
+        <h3>{error}</h3>
       </div>
     );
   }
