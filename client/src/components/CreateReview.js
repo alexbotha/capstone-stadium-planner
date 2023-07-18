@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { UserContext } from "../context/user";
-import { useNavigate } from "react-router-dom";
 
-function CreateReview({ tourState, setTourState }) {
+function CreateReview({ setTourToAddReview, tourToAddReview }) {
   const [reviewInput, setReviewInput] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -16,7 +15,7 @@ function CreateReview({ tourState, setTourState }) {
     addReview({
       review: reviewInput,
       rating: rating,
-      tour_id: tourState.tour_id,
+      tour_id: tourToAddReview.id,
       user_id: user.id,
     });
   }
@@ -59,7 +58,7 @@ function CreateReview({ tourState, setTourState }) {
           <div className="button-container">
             <Button
               onClick={() => {
-                setTourState(null);
+                setTourToAddReview(null);
                 setError([]);
               }}
             >
