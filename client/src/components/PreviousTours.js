@@ -5,13 +5,15 @@ import CreateReview from "./CreateReview";
 import EditReview from "./EditReview";
 
 function PreviousTours() {
-  const [tourState, setTourState] = useState(null);
-  const [edit, setEdit] = useState(null);
-  const [x, setX] = useState([]);
+  const [tourToAddReview, setTourToAddReview] = useState(null);
+  const [tourToEditReview, setTourToEditReview] = useState(null);
+  const [filteredTours, setFilteredTours] = useState([]);
   const { loggedIn, user, loading } = useContext(UserContext);
 
   useEffect(() => {
-    setX(user.tickets.filter((ticket) => ticket.upcoming_tours === false));
+    setFilteredTours(
+      user.tours.filter((tour) => tour.upcoming_tours === false)
+    );
   }, [user]);
 
   if (loggedIn) {
@@ -19,69 +21,66 @@ function PreviousTours() {
       <h3>Loading...</h3>
     ) : (
       <>
-        <h3>Your previous tours</h3>
+        <h3 className="my-account-tours">Previous tours</h3>
 
-        {user !== null && x.length > 0 ? (
+        {user !== null && filteredTours.length > 0 ? (
           <Row>
-            {user.tickets
-              .filter((ticket) => ticket.upcoming_tours === false)
-              .map((filteredTicket, index) => (
-                <>
-                  <Col md={3} sm={6} xs={12} className="mb-4" key={index}>
-                    <Card className="modern-card">
-                      <div className="card-image">
-                        <Card.Img
-                          variant="top"
-                          src={filteredTicket.stadium.image_url}
-                          alt="stadium image"
-                        />
-                      </div>
-                      <Card.Body className="stadium-card-center">
-                        <Card.Title>{filteredTicket.stadium.name}</Card.Title>
-                        <Card.Title>
-                          Date: {filteredTicket.tour.tour_date}
-                        </Card.Title>
-                        <Card.Title>
-                          Time: {filteredTicket.tour.start_time}
-                        </Card.Title>
-                      </Card.Body>
-                      {/* .some is used to iterate over our tour.reviews array, and checks to see if a review object exists for each tour object. It returns a boolean value dependant on the outcome which is returned in the new array created when we mapped over user.tours */}
-                      {/* {const p = user.tours.map((tour) =>
+            {filteredTours.map((filteredTour) => (
+              <React.Fragment key={filteredTour.id}>
+                <Col md={3} sm={6} xs={12} className="mb-4">
+                  <Card className="modern-card">
+                    <div className="card-image">
+                      <Card.Img
+                        variant="top"
+                        src={filteredTour.stadium.image_url}
+                        alt="stadium image"
+                      />
+                    </div>
+                    <Card.Body className="stadium-card-center">
+                      <Card.Title>{filteredTour.stadium.name}</Card.Title>
+                      <Card.Title>Date: {filteredTour.tour_date}</Card.Title>
+                      <Card.Title>Time: {filteredTour.start_time}</Card.Title>
+                    </Card.Body>
+                    {/* .some is used to iterate over our tour.reviews array, and checks to see if a review object exists for each tour object. It returns a boolean value dependant on the outcome which is returned in the new array created when we mapped over user.tours */}
+                    {/* {const p = user.tours.map((tour) =>
     tour.reviews.map((review) => review.review)
   );} */}
 
-                      {user.reviews
-                        .map((review) => review.tour_id)
-                        .includes(filteredTicket.tour.id) ? (
-                        <Button onClick={() => setEdit(filteredTicket)}>
-                          Edit Review
-                        </Button>
-                      ) : (
-                        <Button onClick={() => setTourState(filteredTicket)}>
-                          Create Review
-                        </Button>
-                      )}
-                      {edit === null ? null : (
-                        <div className="calendar-overlay">
-                          <div className="calendar-popup">
-                            <EditReview setEdit={setEdit} edit={edit} />
-                          </div>
+                    {user.reviews
+                      .map((review) => review.tour_id)
+                      .includes(filteredTour.id) ? (
+                      <Button onClick={() => setTourToEditReview(filteredTour)}>
+                        Edit Review
+                      </Button>
+                    ) : (
+                      <Button onClick={() => setTourToAddReview(filteredTour)}>
+                        Create Review
+                      </Button>
+                    )}
+                    {tourToEditReview === null ? null : (
+                      <div className="calendar-overlay">
+                        <div className="calendar-popup">
+                          <EditReview
+                            tourToEditReview={tourToEditReview}
+                            setTourToEditReview={setTourToEditReview}
+                          />
                         </div>
-                      )}
-                      {tourState === null ? null : (
-                        <div className="calendar-overlay">
-                          <div className="calendar-popup">
-                            <CreateReview
-                              setTourState={setTourState}
-                              tourState={tourState}
-                            />
-                          </div>
+                      </div>
+                    )}
+                    {tourToAddReview === null ? null : (
+                      <div className="calendar-overlay">
+                        <div className="calendar-popup">
+                          <CreateReview
+                            setTourToAddReview={setTourToAddReview}
+                            tourToAddReview={tourToAddReview}
+                          />
                         </div>
-                      )}
-                    </Card>
-                  </Col>
-                </>
-              ))}
+                      </div>
+                    )}
+                  </Card>
+                </Col>
+              </React.Fragment>
+            ))}
           </Row>
         ) : (
           <h3>You haven't been on any tours yet.</h3>
