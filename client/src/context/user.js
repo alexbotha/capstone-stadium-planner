@@ -5,7 +5,6 @@ const UserContext = React.createContext();
 
 function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-
   const [stadiums, setStadiums] = useState([]);
   const [error, setError] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,8 +25,6 @@ function UserProvider({ children }) {
     fetchStadiums();
   }, []);
 
-  console.log(user);
-
   function fetchStadiums() {
     fetch("/stadia")
       .then((r) => r.json())
@@ -38,6 +35,47 @@ function UserProvider({ children }) {
           setError([]);
           setStadiums(data);
           setLoading(false);
+        }
+      });
+  }
+
+  function editReview(review) {
+    fetch(`/reviews/${review.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(review),
+    })
+      .then((res) => res.json())
+      .then((review) => {
+        if (review.errors) {
+          setError(review.errors);
+        } else {
+          const userReview = user.reviews.map((r) =>
+            r.id === review.id ? review : r
+          );
+          const x = { ...user, reviews: userReview };
+
+          let stadiumId = review.stadium.id;
+
+          let updatedStadiums = stadiums.map((stadium) => {
+            if (stadium.id === stadiumId) {
+              let updatedReviews = stadium.reviews.map((r) => {
+                if (r.id === review.id) {
+                  return review;
+                } else {
+                  return r;
+                }
+              });
+              stadium.reviews = updatedReviews;
+              stadium.average_rating = review.stadium.average_rating;
+            }
+            return stadium;
+          });
+
+          setStadiums(updatedStadiums);
+          setUser(x);
+          setError([]);
+          navigate(`/stadiums/${review.stadium.id}`);
         }
       });
   }
@@ -53,41 +91,29 @@ function UserProvider({ children }) {
         if (review.errors) {
           setError(review.errors);
         } else {
-          setUser({ ...user, reviews: [...user.reviews, review] });
-
-          let tourId = review.tour_id;
-
-          const updatedUserTour = user.tours.map((tour) => {
-            if (tour.id === tourId) {
-              return {
-                ...tour,
-                reviews: tour.reviews ? [...tour.reviews, review] : [review],
-              };
-            }
-            return tour;
+          setUser({
+            ...user,
+            reviews: user.reviews ? [...user.reviews, review] : [review],
           });
-          setUser({ ...user, tours: updatedUserTour });
 
           let stadiumId = review.stadium.id;
 
-          let stad = stadiums.find((s) => s.id === stadiumId);
+          let updatedStadiums = stadiums.map((stadium) => {
+            if (stadium.id === stadiumId) {
+              return {
+                ...stadium,
+                reviews: stadium.reviews
+                  ? [...stadium.reviews, review]
+                  : [review],
+              };
+            } else {
+              return stadium;
+            }
+          });
 
-          function updatedStadium() {
-            let updatedStad = { ...stad, reviews: [...stad.reviews, review] };
-
-            return stadiums.map((stadium) => {
-              if (stadium.id === stadiumId) {
-                return updatedStad;
-              } else {
-                return stadium;
-              }
-            });
-          }
-          setStadiums(updatedStadium);
+          setStadiums(updatedStadiums);
           setError([]);
-          navigate(`/stadiums/${stadiumId}`);
-
-          // Update the tourState to trigger a re-render
+          navigate(`/stadiums/${review.stadium.id}`);
         }
       });
   }
@@ -124,6 +150,7 @@ function UserProvider({ children }) {
         error,
         setError,
         addReview,
+        editReview,
       }}
     >
       {children}
