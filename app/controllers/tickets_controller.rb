@@ -1,4 +1,5 @@
 class TicketsController < ApplicationController
+  before_action :auth
 
   def index
     tickets = Ticket.all
@@ -12,8 +13,9 @@ class TicketsController < ApplicationController
 
   def create
     ticket = current_user.tickets.build(ticket_params)
+    user = current_user
     if ticket.save
-      render json: ticket, status: :created
+      render json: user, status: :created
     else
       if ticket.errors[:base].present?
         render json: { errors: ticket.errors[:base] }, status: :unprocessable_entity
@@ -26,27 +28,32 @@ class TicketsController < ApplicationController
   def update 
     ticket = current_user.tickets.find(params[:id])
     ticket.update(ticket_params)
+    user = current_user
     if ticket.valid?
-      render json: ticket, status: :ok
+      render json: user, status: :ok
     else
-      if ticket.errors[:base].present?
-        render json: {error: "Maximum capacity of 20 reached."}, status: :unprocessable_entity
-      else 
-      render json: {error: ticket.errors.full_messages}, status: :unprocessable_entity
-    end 
+      render json: {errors: ticket.errors.full_messages}, status: :unprocessable_entity  
   end
-  end 
+ end 
 
-  def destroy 
-    ticket = find_ticket
-    if ticket.user_id == session[:user_id]
-      ticket.destroy 
-    else 
-      render json: {error: "You do not have permission to delete this ticket"}, status: :unauthorized 
-      end 
-    end 
+ def destroy 
+  ticket = find_ticket
+
+  if ticket.user_id == session[:user_id]
+    ticket.destroy 
+    user = current_user
+    render json: user, status: :ok, serializer: UserSerializer # Serialize the user with associated tickets
+  else 
+    render json: { error: "You do not have permission to delete this ticket" }, status: :unauthorized 
+  end 
+end 
 
   private 
+
+  def auth
+    return render json: {error: "Not authorized. Please log in or sign up"}, status: :unauthorized unless session.include? :user_id
+  end 
+
 
   def current_user
     User.find_by(id: session[:user_id])
