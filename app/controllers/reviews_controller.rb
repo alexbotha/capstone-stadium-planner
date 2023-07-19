@@ -10,16 +10,12 @@ class ReviewsController < ApplicationController
 
   # find the user, find the tour, then look in the user.tickets to see the users tickets. In a ticket object will be a foreign key - tour_id. If the user.tickets has an tour.id in the tour_id key then that means the user has a ticket for that tour. A user ticket will always have a value of tour.id in the tour_id key because a ticket cannot be created without a tour.id thanks to the validations in our model.
   def create
-    
-    
-    user = current_user
     tour = Tour.find(params[:tour_id])
+    user = current_user
 
     if user_has_ticket?(user, tour)
       review = Review.new(review_params)
-      # review.user = user 
-      # review.tour = tour 
-  
+      
       if review.save 
         render json: review, status: :created
       else 
@@ -36,8 +32,8 @@ class ReviewsController < ApplicationController
 
   def update 
     review = current_user.reviews.find(params[:id])
-    review.update!(review_params)
-    if review
+    review.update(review_params)
+    if review.valid?
       render json: review, status: :ok
     else 
       render json: {errors: review.errors.full_messages}, status: :unprocessable_entity

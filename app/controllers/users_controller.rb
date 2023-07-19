@@ -27,15 +27,15 @@ def show
   end 
 end 
 
-def update 
-  user = User.find_by(id: session[:user_id])
-  if user
-    user.update(profile_params)
-    render json: user, status: :ok
-  else
-    render json: {error: "Not authorized to edit these details"}, status: :unauthorized
-  end 
-end 
+# def update 
+#   user = User.find_by(id: session[:user_id])
+#   if user
+#     user.update(profile_params)
+#     render json: user, status: :ok
+#   else
+#     render json: {error: "Not authorized to edit these details"}, status: :unauthorized
+#   end 
+# end 
 
 private 
 
@@ -43,8 +43,8 @@ def user_params
   params.permit(:username, :email, :password, :password_confirmation)
 end 
 
-def profile_params
-  params.permit(:first_name, :last_name, :email, :telephone, :address, :city, :post_code, :avatar_url)
-end 
+# def profile_params
+#   params.permit(:first_name, :last_name, :email, :telephone, :address, :city, :post_code, :avatar_url)
+# end 
 
 end

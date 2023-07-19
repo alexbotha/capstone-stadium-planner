@@ -3,5 +3,6 @@ class Stadium < ApplicationRecord
  
   has_many :tours
   has_many :reviews, through: :tours
+  has_many :tickets, through: :tours
 
 end

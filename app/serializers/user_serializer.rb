@@ -3,4 +3,5 @@ class UserSerializer < ActiveModel::Serializer
 
   has_many :tickets
   has_many :tours, through: :tickets
+  has_many :reviews
 end
