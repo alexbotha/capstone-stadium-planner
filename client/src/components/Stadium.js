@@ -22,6 +22,14 @@ function Stadium() {
       setShowReviews(true);
     }
 
+    if (!stadium) {
+      return (
+        <div className="error-text-color">
+          <h3>No stadium has been found</h3>
+        </div>
+      );
+    }
+
     return loading ? (
       <h3>Loading...</h3>
     ) : (

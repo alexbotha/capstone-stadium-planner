@@ -11,8 +11,8 @@ function EditTicket({ filteredTour, setFilteredTour }) {
   const [error, setError] = useState(null);
 
   const [ticket, setTicket] = useState(false);
-  const [tourId, setTourId] = useState("");
-  const [foundStadium, setFoundStadium] = useState("");
+  const [tourId, setTourId] = useState();
+  const [foundStadium, setFoundStadium] = useState();
 
   const { stadiums } = useContext(UserContext);
 
@@ -49,9 +49,7 @@ function EditTicket({ filteredTour, setFilteredTour }) {
             <div key={tour.id}>
               <Link
                 onClick={() => {
-                  const selectedTourId = tour.id;
-                  const tourIdString = selectedTourId.toString();
-                  setTourId(tourIdString);
+                  setTourId(tour.id);
                   setTicket(true);
                 }}
               >
@@ -75,17 +73,7 @@ function EditTicket({ filteredTour, setFilteredTour }) {
       ) : (
         <div>
           <h1>Select a new tour date</h1>
-          <Calendar
-            value={new Date()}
-            // tileContent={({ date }) =>
-            //   // foundStadium.tours.some(
-            //   //   (tour) =>
-            //   //     new Date(tour.tour_date).toDateString() ===
-            //   //     date.toDateString()
-            //   // )
-            // }
-            onClickDay={handleDateSelect}
-          />
+          <Calendar value={selectedDate} onClickDay={handleDateSelect} />
           {renderTourDates()}
         </div>
       )}

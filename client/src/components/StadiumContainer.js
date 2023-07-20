@@ -7,7 +7,7 @@ import { Row, Form, Col } from "react-bootstrap";
 function StadiumContainer() {
   const [searchCountry, setSearchCountry] = useState("");
   const [searchName, setSearchName] = useState("");
-  const [searchRating, setSearchRating] = useState("");
+  // const [searchRating, setSearchRating] = useState("");
   const { loggedIn, stadiums, error, loading } = useContext(UserContext);
 
   // Our call back function recieves the stadium object from filteredStadiums
@@ -22,11 +22,12 @@ function StadiumContainer() {
       searchName === "" ||
       stadium.name.toLowerCase().includes(searchName.toLowerCase());
 
-    const matchRating =
-      searchRating === "" || stadium.average_rating === parseInt(searchRating);
+    // const matchRating =
+    //   searchRating === "" || stadium.average_rating === parseInt(searchRating);
 
     // return the variables
-    return matchCountry && matchName && matchRating;
+    return matchCountry && matchName;
+    //  && matchRating;
   }
 
   // Filter over stadiums and recieve the callback
@@ -69,7 +70,7 @@ function StadiumContainer() {
                 </option>
               ))}
             </Form.Select>
-            <Form.Select
+            {/* <Form.Select
               type="text"
               value={searchRating}
               onChange={(e) => setSearchRating(e.target.value)}
@@ -81,7 +82,7 @@ function StadiumContainer() {
                   {rating}
                 </option>
               ))}
-            </Form.Select>
+            </Form.Select> */}
 
             <Form.Select
               type="text"
@@ -101,9 +102,7 @@ function StadiumContainer() {
           {filteredStadiums.length === 0 ? (
             <h3 className="no-stadiums">No stadiums found.</h3>
           ) : (
-            filteredStadiums.map((stadium) => (
-              <StadiumItem stadium={stadium} key={stadium.id} />
-            ))
+            <StadiumItem stadiums={filteredStadiums} />
           )}
         </Row>
       </>

@@ -177,6 +177,10 @@ code {
   margin-bottom: 10px;
 }
 
+.time-link {
+  text-decoration: none;
+}
+
 .react-calendar__tile {
   background-color: #fff;
   border: 1px solid #ccc;

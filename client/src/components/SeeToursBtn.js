@@ -6,11 +6,11 @@ import { Button } from "react-bootstrap";
 import TicketForm from "./TicketForm";
 
 function SeeToursBtn({ setShowTours, stadium }) {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [error, setError] = useState(null);
 
   const [ticket, setTicket] = useState(false);
-  const [tourId, setTourId] = useState("");
+  const [tourId, setTourId] = useState();
 
   function handleDateSelect(date) {
     setSelectedDate(date);
@@ -35,20 +35,21 @@ function SeeToursBtn({ setShowTours, stadium }) {
       return (
         <div>
           <h3>{selectedDate.toDateString()}</h3>
-          {selectedTourDates.map((tour) => (
-            <div key={tour.id}>
-              <Link
-                onClick={() => {
-                  const x = tour.id;
-                  const str = x.toString();
-                  setTourId(str);
-                  setTicket(true);
-                }}
-              >
-                {tour.start_time}
-              </Link>
-            </div>
-          ))}
+          <h4>
+            {selectedTourDates.map((tour) => (
+              <div key={tour.id}>
+                <Link
+                  className="time-link"
+                  onClick={() => {
+                    setTourId(tour.id);
+                    setTicket(true);
+                  }}
+                >
+                  {tour.start_time}
+                </Link>
+              </div>
+            ))}
+          </h4>
         </div>
       );
     }
@@ -61,17 +62,7 @@ function SeeToursBtn({ setShowTours, stadium }) {
       ) : (
         <div>
           <h1>Tour dates</h1>
-          <Calendar
-            value={new Date()}
-            // tileContent={({ date }) =>
-            //   stadium.tours.some(
-            //     (tour) =>
-            //       new Date(tour.tour_date).toDateString() ===
-            //       date.toDateString()
-            //   )
-            // }
-            onClickDay={handleDateSelect}
-          />
+          <Calendar value={selectedDate} onClickDay={handleDateSelect} />
           {renderTourDates()}
         </div>
       )}

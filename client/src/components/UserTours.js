@@ -10,6 +10,14 @@ function UserTours({ users }) {
   if (loggedIn) {
     const foundUser = users.find(({ id }) => id === parseInt(params.id));
 
+    if (!foundUser) {
+      return (
+        <div className="error-text-color">
+          <h3>No user exists</h3>
+        </div>
+      );
+    }
+
     return loading ? (
       <h3 className="loading">Loading...</h3>
     ) : (
